@@ -41,7 +41,8 @@ def find_pairs(structure, max_distance=MAX_DISTANCE):
             for i in [-1, 0, 1]
             for j in [-1, 0, 1]
             for k in [-1, 0, 1]
-            for a in atoms_by_cube[tuple(cube + numpy.array([i, j, k]))] - atoms_in_chain
+            for a in (atoms_by_cube[tuple(cube + numpy.array([i, j, k]))]
+                      - atoms_in_chain)
             if dist(a, atom) <= max_distance
         )
         atoms_by_cube[tuple(cube)].remove(atom)
