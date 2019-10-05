@@ -2,9 +2,8 @@ import json
 import os
 import sys
 
-from Bio import PDB
-
 from main import MAX_DISTANCE, dist
+import tests.loader
 
 
 def main(structure, max_distance, output_file):
@@ -36,10 +35,5 @@ if __name__ == '__main__':
         max_distance = float(sys.argv[2])
     except IndexError:
         max_distance = MAX_DISTANCE
-    parser = PDB.PDBParser()
-    pdb_file = os.path.join(
-        'tests', 'data', 'input', '{}.pdb'.format(pdb_name))
-    output_file = os.path.join(
-        'tests', 'data', 'output', '{}.json'.format(pdb_name))
-    structure = parser.get_structure('DATA', pdb_file)
-    main(structure, max_distance, output_file=output_file)
+    loader = tests.loader.Loader(pdb_name)
+    main(loader.get_structure(), max_distance, output_file=loader.output_file)
