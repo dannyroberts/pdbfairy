@@ -3,6 +3,7 @@ import math
 import sys
 
 from Bio import PDB
+import memoized
 from numpy import linalg
 import numpy
 
@@ -23,29 +24,53 @@ def main(structure, max_distance):
 
 def find_pairs(structure, max_distance=MAX_DISTANCE):
     atoms = list(structure.get_atoms())
-    atoms_by_cube = collections.defaultdict(set)
-    atoms_by_chain = collections.defaultdict(set)
-
-    def get_cube(atom):
-        return numpy.floor(atom.coord / max_distance)
-
+    atom_store = AtomStore(atoms, max_distance=max_distance)
     for atom in atoms:
-        atoms_by_cube[tuple(get_cube(atom))].add(atom)
-        atoms_by_chain[atom.parent.parent].add(atom)
+        yield from atom_store.find_neighbors(atom)
+        atom_store.remove(atom)
 
-    for atom in atoms:
-        cube = get_cube(atom)
-        atoms_in_chain = atoms_by_chain[atom.parent.parent]
+
+class AtomStore(object):
+    def __init__(self, atoms=(), max_distance=MAX_DISTANCE):
+        # max distance for two atoms to be considered "neighbors"
+        self.max_distance = max_distance
+        self._atoms_by_cube = collections.defaultdict(set)
+        self._atoms_by_chain = collections.defaultdict(set)
+        for atom in atoms:
+            self.add(atom)
+
+    def add(self, atom):
+        self._atoms_by_cube[tuple(self._get_cube(atom))].add(atom)
+        self._atoms_by_chain[self._get_chain(atom)].add(atom)
+
+    def remove(self, atom):
+        self._atoms_by_cube[tuple(self._get_cube(atom))].remove(atom)
+        self._atoms_by_chain[self._get_chain(atom)].remove(atom)
+
+    def find_neighbors(self, atom):
+        cube = self._get_cube(atom)
+        atoms_in_chain = self._atoms_by_chain[self._get_chain(atom)]
         yield from (
             (atom, a)
-            for i in [-1, 0, 1]
-            for j in [-1, 0, 1]
-            for k in [-1, 0, 1]
-            for a in (atoms_by_cube[tuple(cube + numpy.array([i, j, k]))]
-                      - atoms_in_chain)
-            if dist(a, atom) <= max_distance
+            for offset in self._offsets
+            for a in self._atoms_by_cube[tuple(cube + offset)] - atoms_in_chain
+            if dist(a, atom) <= self.max_distance
         )
-        atoms_by_cube[tuple(cube)].remove(atom)
+
+    @memoized.memoized
+    def _get_cube(self, atom):
+        return numpy.floor(atom.coord / self.max_distance)
+
+    @memoized.memoized
+    def _get_chain(self, atom):
+        return atom.parent.parent
+
+    _offsets = [
+        numpy.array([i, j, k])
+        for i in [-1, 0, 1]
+        for j in [-1, 0, 1]
+        for k in [-1, 0, 1]
+    ]
 
 
 def dist(atom_1, atom_2):
