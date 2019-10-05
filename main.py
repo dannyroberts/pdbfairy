@@ -11,9 +11,14 @@ MAX_DISTANCE = 4
 
 
 def main(structure):
-    pairs = find_pairs(structure)
-    for atom_1, atom_2 in pairs:
-        print(format_atom(atom_1), format_atom(atom_2), dist(atom_1, atom_2))
+    atom_pairs = find_pairs(structure)
+    res_pairs = set()
+    for atom_1, atom_2 in atom_pairs:
+        res_pairs.add((atom_1.parent, atom_2.parent))
+
+    for res_1, res_2 in res_pairs:
+        print('{}\t{}'.format(format_res(res_1), format_res(res_2)))
+        print('{}\t{}'.format(format_res(res_2), format_res(res_1)))
 
 
 def find_pairs(structure, max_distance=MAX_DISTANCE):
@@ -46,12 +51,8 @@ def dist(atom_1, atom_2):
     return linalg.norm(atom_1.coord - atom_2.coord)
 
 
-def format_atom(atom):
-    return "{chain}{res}{atom}".format(
-        chain=atom.parent.parent,
-        res=atom.parent,
-        atom=atom,
-    )
+def format_res(res):
+    return '{}\t{}'.format(res.parent.id, res.id[1])
 
 
 if __name__ == '__main__':
