@@ -10,8 +10,8 @@ import numpy
 MAX_DISTANCE = 4
 
 
-def main(structure):
-    atom_pairs = find_pairs(structure)
+def main(structure, max_distance):
+    atom_pairs = find_pairs(structure, max_distance)
     res_pairs = set()
     for atom_1, atom_2 in atom_pairs:
         res_pairs.add((atom_1.parent, atom_2.parent))
@@ -57,6 +57,10 @@ def format_res(res):
 
 if __name__ == '__main__':
     pdb_file = sys.argv[1]
+    try:
+        max_distance = float(sys.argv[2])
+    except IndexError:
+        max_distance = MAX_DISTANCE
     parser = PDB.PDBParser()
     structure = parser.get_structure('DATA', pdb_file)
-    main(structure)
+    main(structure, max_distance)
