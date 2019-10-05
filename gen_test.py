@@ -4,19 +4,13 @@ import sys
 
 from main import MAX_DISTANCE, dist
 import tests.loader
+import tests.test_find_pairs
 
 
 def main(structure, max_distance, output_file):
     with open(output_file, 'w') as f:
-        json.dump(run_find_pairs_algorithm(
+        json.dump(tests.test_find_pairs.run_find_pairs_algorithm(
             find_pairs_brute_force, structure, max_distance), f)
-
-
-def run_find_pairs_algorithm(find_pairs_fn, structure, max_distance):
-    sorted_pairs = list()
-    for atom_1, atom_2 in find_pairs_fn(structure, max_distance):
-        sorted_pairs.append(sorted([atom_1.serial_number, atom_2.serial_number]))
-    return sorted(sorted_pairs)
 
 
 def find_pairs_brute_force(structure, max_distance):
