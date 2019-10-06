@@ -37,7 +37,11 @@ pip install pdbfairy
 For a pdb file called `<filename>` and a max distance in Angstroms called `<max_distance>` (which is optional), you can run it like this:
 
 ```
-pdbfairy <filename> [<max_distance>]
+pdbfairy find-interactions <filename> [--max-distance=<max_distance>]
 ```
 
-The output will be something you can paste into a spreadsheet (Google Spreadsheets, etc., Excel)
+The output will be something you can paste into a spreadsheet (Google Spreadsheets, etc., Excel).
+
+To see all commands run `pdbfairy --help`.
+
+To see help for a particular command run `pdbfairy <command> --help`.

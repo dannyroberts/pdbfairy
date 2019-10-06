@@ -113,7 +113,12 @@ def main():
     "The distance in Angstroms under which atoms should be considered to interact "
     "(default {})".format(MAX_DISTANCE)))
 def find_interactions(pdb_file, max_distance):
-    """Find all intermolecular pairs of residues in PDB_FILE that interact"""
+    """
+    Find all intermolecular pairs of residues in PDB_FILE that interact
+
+    The output will be tab-separated values,
+    something you can paste into a spreadsheet (Google Spreadsheets, etc., Excel).
+    """
     parser = PDB.PDBParser()
     pdb_name = ''.join(os.path.splitext(os.path.basename(pdb_file))[:-1])
     structure = parser.get_structure(pdb_name, pdb_file)
