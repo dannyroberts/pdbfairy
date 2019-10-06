@@ -12,6 +12,7 @@ First, install pipx:
 ```
 python3 -m pip install --user pipx
 python3 -m pipx ensurepath
+# see note for csh/tcsh users below
 ```
 
 Then use it to install pdbfairy:
@@ -19,6 +20,18 @@ Then use it to install pdbfairy:
 ```
 pipx install pdbfairy
 ```
+
+#### Note for csh/tcsh users
+
+If you are using CSH (or TCSH) as your shell, then you will need to manually add "$HOME/.local/bin" to your "path". Open `~/.cshrc` and add the following line anywhere in the file:
+
+```
+echo 'set path = ($path $HOME/.local/bin)' >> ~/.cshrc
+```
+
+Then open a new terminal window (or run `source ~/.cshrc` in the current window)
+
+After installing `pdbfairy` with `pipx` above, you may have to open a new terminal window again before being able to run it.
 
 ### Option 2: Install in a virtualenv
 
