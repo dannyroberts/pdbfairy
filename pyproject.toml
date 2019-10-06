@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "pdbfairy"
+version = "0.0.1"
+description = ""
+authors = ["Danny Roberts"]
+
+[tool.poetry.dependencies]
+python = "^3.4"
+biopython = "^1.74"
+numpy = "~1.16"
+memoized = "^0.3.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.4"
