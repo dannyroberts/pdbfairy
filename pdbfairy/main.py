@@ -12,7 +12,7 @@ import numpy
 MAX_DISTANCE = 4
 
 
-def main(structure, max_distance):
+def print_interactions(structure, max_distance):
     atom_pairs = find_pairs(structure, max_distance)
     res_pairs = set()
     for atom_1, atom_2 in atom_pairs:
@@ -101,8 +101,7 @@ def get_res_chain(res):
 def get_res_number(res):
     return res.id[1]
 
-
-if __name__ == '__main__':
+def main():
     pdb_file = sys.argv[1]
     try:
         max_distance = float(sys.argv[2])
@@ -111,4 +110,8 @@ if __name__ == '__main__':
     parser = PDB.PDBParser()
     pdb_name = ''.join(os.path.splitext(os.path.basename(pdb_file))[:-1])
     structure = parser.get_structure(pdb_name, pdb_file)
-    main(structure, max_distance)
+    print_interactions(structure, max_distance)
+
+
+if __name__ == '__main__':
+    main()
