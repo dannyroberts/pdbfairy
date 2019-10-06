@@ -1,5 +1,6 @@
 import collections
 import math
+import os
 import sys
 
 from Bio import PDB
@@ -17,9 +18,25 @@ def main(structure, max_distance):
     for atom_1, atom_2 in atom_pairs:
         res_pairs.add((atom_1.parent, atom_2.parent))
 
+    print("PDB file name\t{}".format(structure.id))
+    print("Distance cutoff\t{}".format(max_distance))
+    print()
+    print()
+    print()
+    print("Chain\tResidue number\tChain\tResidue number")
+
+    lines = []
+
+    def get_line(res_1, res_2):
+        return (get_res_chain(res_1), get_res_number(res_1),
+                get_res_chain(res_2), get_res_number(res_2))
+
     for res_1, res_2 in res_pairs:
-        print('{}\t{}'.format(format_res(res_1), format_res(res_2)))
-        print('{}\t{}'.format(format_res(res_2), format_res(res_1)))
+        lines.append(get_line(res_1, res_2))
+        lines.append(get_line(res_2, res_1))
+    lines.sort()
+    for line in lines:
+        print('{}\t{}\t{}\t{}'.format(*line))
 
 
 def find_pairs(structure, max_distance=MAX_DISTANCE):
@@ -77,8 +94,12 @@ def dist(atom_1, atom_2):
     return linalg.norm(atom_1.coord - atom_2.coord)
 
 
-def format_res(res):
-    return '{}\t{}'.format(res.parent.id, res.id[1])
+def get_res_chain(res):
+    return res.parent.id
+
+
+def get_res_number(res):
+    return res.id[1]
 
 
 if __name__ == '__main__':
@@ -88,5 +109,6 @@ if __name__ == '__main__':
     except IndexError:
         max_distance = MAX_DISTANCE
     parser = PDB.PDBParser()
-    structure = parser.get_structure('DATA', pdb_file)
+    pdb_name = ''.join(os.path.splitext(os.path.basename(pdb_file))[:-1])
+    structure = parser.get_structure(pdb_name, pdb_file)
     main(structure, max_distance)
