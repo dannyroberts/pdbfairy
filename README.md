@@ -1,5 +1,7 @@
 # pdbfairy
 
+[![Build Status](https://travis-ci.com/dannyroberts/pdbfairy.svg?branch=master)](https://travis-ci.com/dannyroberts/pdbfairy)
+
 ## Install
 
 To install, enter the directory you want to house it, and run
