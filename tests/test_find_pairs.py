@@ -1,4 +1,4 @@
-import main
+from pdbfairy import main
 import parameterized
 import tests.loader
 

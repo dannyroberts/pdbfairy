@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-from main import MAX_DISTANCE, dist
+from pdbfairy.main import MAX_DISTANCE, dist
 import tests.loader
 import tests.test_find_pairs
 
