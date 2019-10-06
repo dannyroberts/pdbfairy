@@ -9,6 +9,7 @@ python = "^3.4"
 biopython = "^1.74"
 numpy = "~1.16"
 memoized = "^0.3.0"
+click = "^7.0"
 
 [tool.poetry.dev-dependencies]
 nose = "^1.3"
