@@ -4,6 +4,7 @@ import os
 import sys
 
 from Bio import PDB
+import click
 import memoized
 from numpy import linalg
 import numpy
@@ -39,7 +40,7 @@ def print_interactions(structure, max_distance):
         print('{}\t{}\t{}\t{}'.format(*line))
 
 
-def find_pairs(structure, max_distance=MAX_DISTANCE):
+def find_pairs(structure, max_distance):
     atoms = list(structure.get_atoms())
     atom_store = AtomStore(atoms, max_distance=max_distance)
     for atom in atoms:
@@ -48,7 +49,7 @@ def find_pairs(structure, max_distance=MAX_DISTANCE):
 
 
 class AtomStore(object):
-    def __init__(self, atoms=(), max_distance=MAX_DISTANCE):
+    def __init__(self, atoms, max_distance):
         # max distance for two atoms to be considered "neighbors"
         self.max_distance = max_distance
         self._atoms_by_cube = collections.defaultdict(set)
@@ -101,12 +102,18 @@ def get_res_chain(res):
 def get_res_number(res):
     return res.id[1]
 
+
+@click.group()
 def main():
-    pdb_file = sys.argv[1]
-    try:
-        max_distance = float(sys.argv[2])
-    except IndexError:
-        max_distance = MAX_DISTANCE
+    pass
+
+@main.command()
+@click.argument('pdb_file')
+@click.option('--max-distance', default=MAX_DISTANCE, help=(
+    "The distance in Angstroms under which atoms should be considered to interact "
+    "(default {})".format(MAX_DISTANCE)))
+def find_interactions(pdb_file, max_distance):
+    """Find all intermolecular pairs of residues in PDB_FILE that interact"""
     parser = PDB.PDBParser()
     pdb_name = ''.join(os.path.splitext(os.path.basename(pdb_file))[:-1])
     structure = parser.get_structure(pdb_name, pdb_file)
