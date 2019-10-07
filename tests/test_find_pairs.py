@@ -9,7 +9,7 @@ import tests.loader
 def test_find_pairs(dataset_name):
     loader = tests.loader.Loader(dataset_name)
     structure = loader.get_structure()
-    expected_pairs = loader.get_expected_output()
+    expected_pairs = loader.get_expected_find_pairs()
     actual_pairs = run_find_pairs_algorithm(
         find_interactions.find_pairs, structure, find_interactions.MAX_DISTANCE)
     assert expected_pairs == actual_pairs, (expected_pairs, actual_pairs)

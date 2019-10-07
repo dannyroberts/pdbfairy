@@ -19,16 +19,16 @@ def compare_interactions(pdb_file_1, pdb_file_2, max_distance):
     """
     structure_1 = utils.load_pdb_file(pdb_file_1)
     structure_2 = utils.load_pdb_file(pdb_file_2)
-    interactions_text_1 = io.StringIO()
-    interactions_text_2 = io.StringIO()
-    find_interactions.print_interactions(
-        structure_1, max_distance, file=interactions_text_1)
-    find_interactions.print_interactions(
-        structure_2, max_distance, file=interactions_text_2)
+
+    with utils.capture() as (interactions_text_1, _):
+        find_interactions.print_interactions(structure_1, max_distance)
+    with utils.capture() as (interactions_text_2, _):
+        find_interactions.print_interactions(structure_2, max_distance)
+
     differ = difflib.Differ()
     diff = list(differ.compare(
-        interactions_text_1.getvalue().splitlines(),
-        interactions_text_2.getvalue().splitlines(),
+        interactions_text_1.getvalue().splitlines()[5:],
+        interactions_text_2.getvalue().splitlines()[5:],
     ))
 
     print("PDB file name 1\t{}".format(structure_1.id))
