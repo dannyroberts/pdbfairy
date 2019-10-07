@@ -12,16 +12,25 @@ class Loader(object):
         return PDB.PDBParser().get_structure(
             self.dataset_name, self.pdb_file)
 
-    def get_expected_output(self):
-        with open(self.output_file) as f:
-            return json.load(f)
-
     @property
     def pdb_file(self):
         return os.path.join(
             'tests', 'data', 'input', '{}.pdb'.format(self.dataset_name))
 
+    def get_expected_find_pairs(self):
+        with open(self.find_pairs_file) as f:
+            return json.load(f)
+
     @property
-    def output_file(self):
+    def find_pairs_file(self):
         return os.path.join(
-            'tests', 'data', 'output', '{}.json'.format(self.dataset_name))
+            'tests', 'data', 'find_pairs', '{}.json'.format(self.dataset_name))
+
+    def get_expected_find_interactions(self):
+        with open(self.find_interactions_file) as f:
+            return f.read()
+
+    @property
+    def find_interactions_file(self):
+        return os.path.join(
+            'tests', 'data', 'find-interactions', '{}.tsv'.format(self.dataset_name))

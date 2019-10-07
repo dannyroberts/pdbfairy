@@ -26,22 +26,17 @@ def find_interactions(pdb_file, max_distance):
     paste into a spreadsheet (Google Spreadsheets, etc., Excel).
     """
     structure = utils.load_pdb_file(pdb_file)
+    print_interactions(structure, max_distance)
+
+
+def print_interactions(structure, max_distance):
+    res_pairs = find_residue_pairs(structure, max_distance)
 
     print("PDB file name\t{}".format(structure.id))
     print("Distance cutoff\t{}".format(max_distance))
     print()
     print()
     print()
-
-    print_interactions(structure, max_distance)
-
-
-def print_interactions(structure, max_distance, file=None):
-    if file:
-        print = functools.partial(builtins.print, file=file)
-
-    res_pairs = find_residue_pairs(structure, max_distance)
-
     print("Chain\tResidue number\tChain\tResidue number")
 
     lines = []
