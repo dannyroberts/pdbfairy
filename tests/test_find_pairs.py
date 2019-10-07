@@ -1,4 +1,4 @@
-from pdbfairy import main
+from pdbfairy.commands import find_interactions
 import parameterized
 import tests.loader
 
@@ -11,7 +11,7 @@ def test_find_pairs(dataset_name):
     structure = loader.get_structure()
     expected_pairs = loader.get_expected_output()
     actual_pairs = run_find_pairs_algorithm(
-        main.find_pairs, structure, main.MAX_DISTANCE)
+        find_interactions.find_pairs, structure, find_interactions.MAX_DISTANCE)
     assert expected_pairs == actual_pairs, (expected_pairs, actual_pairs)
 
 

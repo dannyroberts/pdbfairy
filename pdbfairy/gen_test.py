@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-from pdbfairy.main import MAX_DISTANCE, dist
+from pdbfairy.commands import find_interactions
 import tests.loader
 import tests.test_find_pairs
 
@@ -19,7 +19,7 @@ def find_pairs_brute_force(structure, max_distance):
         for chain_2 in chains[c + 1:]:
             for atom_1 in chain_1.get_atoms():
                 for atom_2 in chain_2.get_atoms():
-                    if dist(atom_1, atom_2) <= max_distance:
+                    if find_interactions.dist(atom_1, atom_2) <= max_distance:
                         yield (atom_1, atom_2)
 
 
@@ -28,6 +28,6 @@ if __name__ == '__main__':
     try:
         max_distance = float(sys.argv[2])
     except IndexError:
-        max_distance = MAX_DISTANCE
+        max_distance = find_interactions.MAX_DISTANCE
     loader = tests.loader.Loader(pdb_name)
     main(loader.get_structure(), max_distance, output_file=loader.output_file)
