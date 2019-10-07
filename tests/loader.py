@@ -33,4 +33,21 @@ class Loader(object):
     @property
     def find_interactions_file(self):
         return os.path.join(
-            'tests', 'data', 'find-interactions', '{}.tsv'.format(self.dataset_name))
+            'tests', 'data', 'find-interactions',
+            '{}.tsv'.format(self.dataset_name))
+
+    def get_expected_compare_interactions(self):
+        with open(self.compare_interactions_file) as f:
+            return f.read()
+
+    @property
+    def compare_interactions_file(self):
+        return os.path.join(
+            'tests', 'data', 'compare-interactions',
+            '{}.tsv'.format(self.dataset_name))
+
+    @property
+    def pdb_file_compare(self):
+        return os.path.join(
+            'tests', 'data', 'input',
+            '{}-compare.pdb'.format(self.dataset_name))
