@@ -1,13 +1,15 @@
+import builtins
 import collections
+import functools
 import math
-import os
 import sys
 
-from Bio import PDB
 import click
 import memoized
 from numpy import linalg
 import numpy
+
+from pdbfairy import utils
 
 MAX_DISTANCE = 4
 
@@ -23,23 +25,23 @@ def find_interactions(pdb_file, max_distance):
     The output will be tab-separated values, something you can
     paste into a spreadsheet (Google Spreadsheets, etc., Excel).
     """
-    parser = PDB.PDBParser()
-    pdb_name = ''.join(os.path.splitext(os.path.basename(pdb_file))[:-1])
-    structure = parser.get_structure(pdb_name, pdb_file)
-    print_interactions(structure, max_distance)
-
-
-def print_interactions(structure, max_distance):
-    atom_pairs = find_pairs(structure, max_distance)
-    res_pairs = set()
-    for atom_1, atom_2 in atom_pairs:
-        res_pairs.add((atom_1.parent, atom_2.parent))
+    structure = utils.load_pdb_file(pdb_file)
 
     print("PDB file name\t{}".format(structure.id))
     print("Distance cutoff\t{}".format(max_distance))
     print()
     print()
     print()
+
+    print_interactions(structure, max_distance)
+
+
+def print_interactions(structure, max_distance, file=None):
+    if file:
+        print = functools.partial(builtins.print, file=file)
+
+    res_pairs = find_residue_pairs(structure, max_distance)
+
     print("Chain\tResidue number\tChain\tResidue number")
 
     lines = []
@@ -54,6 +56,14 @@ def print_interactions(structure, max_distance):
     lines.sort()
     for line in lines:
         print('{}\t{}\t{}\t{}'.format(*line))
+
+
+def find_residue_pairs(structure, max_distance):
+    atom_pairs = find_pairs(structure, max_distance)
+    res_pairs = set()
+    for atom_1, atom_2 in atom_pairs:
+        res_pairs.add((atom_1.parent, atom_2.parent))
+    return res_pairs
 
 
 def find_pairs(structure, max_distance):
