@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/dannyroberts/pdbfairy.svg?branch=master)](https://travis-ci.com/dannyroberts/pdbfairy)
 
+`pdbfairy` is a small command-line tool that does interaction analysis on PDB files.
+
 ## Install
 The cleanest install option is to use [pipx](https://pipxproject.github.io/pipx/).
 
