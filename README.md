@@ -20,6 +20,12 @@ Then use it to install pdbfairy:
 pipx install pdbfairy
 ```
 
+To update to the latest version later, use
+
+```
+pipx upgrade pdbfairy
+```
+
 #### Note for csh/tcsh users
 
 To check your shell, use `echo $SHELL` if it's csh or tcsh, you'll need to follow these steps. If you are using bash, you can skip them. If you're using zsh or fish it'll probably work, but it hasn't been tested.
