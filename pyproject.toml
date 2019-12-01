@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pdbfairy"
-version = "0.1.2"
+version = "0.1.3"
 description = ""
 authors = ["Danny Roberts"]
 
