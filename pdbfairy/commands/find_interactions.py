@@ -11,7 +11,7 @@ import numpy
 
 from pdbfairy import utils
 
-MAX_DISTANCE = 4
+MAX_DISTANCE = 4.0
 
 
 @click.argument('pdb_file')
