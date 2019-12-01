@@ -25,6 +25,11 @@ To update to the latest version later, use
 ```
 pipx upgrade pdbfairy
 ```
+or if that doesn't work, 
+```
+pipx uninstall pdbfairy
+pipx install pdbfairy
+```
 
 #### Note for csh/tcsh users
 
