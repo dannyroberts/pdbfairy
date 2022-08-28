@@ -5,9 +5,9 @@ description = ""
 authors = ["Danny Roberts"]
 
 [tool.poetry.dependencies]
-python = "^3.4"
+python = ">=3.8,<4.0"
 biopython = "^1.74"
-numpy = "~1.16"
+numpy = "~1.23"
 memoized = "^0.3.0"
 click = "^7.0"
 
