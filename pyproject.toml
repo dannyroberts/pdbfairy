@@ -8,12 +8,11 @@ authors = ["Danny Roberts"]
 python = ">=3.8,<4.0"
 biopython = "^1.74"
 numpy = "~1.23"
-memoized = "^0.3.0"
 click = "^7.0"
+dimagi-memoized = "^1.1.3"
 
 [tool.poetry.dev-dependencies]
-nose = "^1.3"
-parameterized = "^0.7.0"
+pytest = "^7.1.2"
 
 [tool.poetry.scripts]
 pdbfairy = "pdbfairy.main:main"

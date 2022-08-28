@@ -1,6 +1,5 @@
 import difflib
-
-import parameterized
+import pytest
 
 from pdbfairy import main
 from pdbfairy.commands import find_interactions
@@ -8,7 +7,7 @@ from pdbfairy import utils
 import tests.loader
 
 
-@parameterized.parameterized([
+@pytest.mark.parametrize('dataset_name', [
     '3trz'
 ])
 def test_find_interactions(dataset_name):
