@@ -1,9 +1,9 @@
+import pytest
+
 from pdbfairy.commands import find_interactions
-import parameterized
 import tests.loader
 
-
-@parameterized.parameterized([
+@pytest.mark.parametrize('dataset_name', [
     '3trz'
 ])
 def test_find_pairs(dataset_name):
